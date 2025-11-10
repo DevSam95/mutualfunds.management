@@ -1,11 +1,12 @@
 package org.cams.mutualfund.management.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class MutualFund {
@@ -15,11 +16,11 @@ public class MutualFund {
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
     
-    @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @NotBlank(message = "Asset value is mandatory")
     private long value;
+
+    private LocalDate date;
 
     public String getId() {
         return id;
@@ -43,5 +44,13 @@ public class MutualFund {
 
     public void setValue(long value) {
         this.value = value;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

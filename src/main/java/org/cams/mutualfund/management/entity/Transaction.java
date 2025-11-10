@@ -1,13 +1,12 @@
 package org.cams.mutualfund.management.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -23,14 +22,12 @@ public class Transaction {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "fund_id")
     private MutualFund fund;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private AppUser user;
 
-    private Date doneOn;
+    private LocalDate doneOn;
 
     private long units;
 
@@ -52,19 +49,19 @@ public class Transaction {
         this.fund = fund;
     }
 
-    public User getUser() {
+    public AppUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(AppUser user) {
         this.user = user;
     }
 
-    public Date getDoneOn() {
+    public LocalDate getDoneOn() {
         return doneOn;
     }
 
-    public void setDoneOn(Date doneOn) {
+    public void setDoneOn(LocalDate doneOn) {
         this.doneOn = doneOn;
     }
 

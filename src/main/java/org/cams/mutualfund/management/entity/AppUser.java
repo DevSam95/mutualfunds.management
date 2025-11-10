@@ -11,22 +11,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class AppUser {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
     
-    @NotBlank(message = "Username is mandatory")
     private String username;
 
     @JsonIgnore
-    @NotBlank(message = "Password is mandatory")
     private String password;
 
     @JsonIgnore

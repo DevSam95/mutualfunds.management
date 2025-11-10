@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.cams.mutualfund.management.dto.UserRequestDto;
 import org.cams.mutualfund.management.dto.UserResponseDto;
-import org.cams.mutualfund.management.entity.User;
+import org.cams.mutualfund.management.entity.AppUser;
 import org.cams.mutualfund.management.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,9 +29,9 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = repo.findByUsername(username)
+        AppUser user = repo.findByUsername(username)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new org.springframework.security.core.userdetails.User(
+        return new User(
             user.getUsername(),
             user.getPassword(),
             user.isEnabled(),
@@ -40,7 +41,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void enrollUser(UserRequestDto user) {
-        User newUser = new User();
+        AppUser newUser = new AppUser();
         newUser.setUsername(user.username());
 
         String encodedPwd = passwordEncoder.encode(user.password());
@@ -53,12 +54,12 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponseDto getUserByUsername(String username) {
-        User user = repo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        AppUser user = repo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return UserResponseDto.map(user);
     }
 
     public List<UserResponseDto> getAllUsers() {
-        List<User> users = repo.findAll();
+        List<AppUser> users = repo.findAll();
         return users.stream().map(UserResponseDto::map).toList();
     }
 

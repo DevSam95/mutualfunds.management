@@ -14,13 +14,13 @@ public class TransactionController {
     @Autowired
     private TransactionService txnService;
 
-    @PostMapping("/buy/{id}/units/{units}")
+    @PostMapping("/buy/{fundId}/units/{units}")
     public String buy(@PathVariable String fundId, @PathVariable long units) {
         txnService.buy(fundId, units);
         return "Mutual fund units purchased successfully";
     }
 
-    @PostMapping("/sell/{id}/units/{units}")
+    @PostMapping("/sell/{fundId}/units/{units}")
     public String sell(@PathVariable String fundId, @PathVariable long units) {
         txnService.sell(fundId, units);
         return "Mutual fund units sold successfully";

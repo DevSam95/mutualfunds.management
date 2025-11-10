@@ -1,5 +1,7 @@
 package org.cams.mutualfund.management.controller;
 
+import java.util.List;
+
 import org.cams.mutualfund.management.dto.MutualFundDto;
 import org.cams.mutualfund.management.service.MutualFundService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,11 @@ public class MutualFundController {
     
     @Autowired
     private MutualFundService mutualFundService;
+
+    @GetMapping
+    public List<MutualFundDto> getAllFunds() {
+        return mutualFundService.getAllFunds();
+    }
 
     @GetMapping("/{id}")
     public MutualFundDto getMutualFundById(@PathVariable String id) {
