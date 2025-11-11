@@ -1,16 +1,25 @@
-# Getting Started
+# Project Overview
 
-### Reference Documentation
-For further reference, please consider the following sections:
+## Tech Stack
+o	Backend: Java 24 and Spring Boot 3.5.7
+o	Database: Spring Data JPA w4ith MySQL
+o	Authentication: Spring Security for Basic Authentication.
+o	Build Tool: Maven
+<!-- o	Testing: JUnit 5, Mockito, and Spring Boot Test. -->
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.5.7/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.5.7/maven-plugin/build-image.html)
+## Setup Instructions
 
-### Maven Parent overrides
+### Database config
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+For the purpose of this POC, I have used System env variables
 
+In windows PowerShell it can be set as follows
+
+$env:SPRING_DATASOURCE_URL="jdbc:mysql://localhost:3306/mutualfund_management"
+$env:SPRING_DATASOURCE_USERNAME="root"
+$env:SPRING_DATASOURCE_PASSWORD="root"
+
+### Build and run
+
+- Execute `mvnw` or `mvnw.cmd`
+- Alternatively run directly using VSCode
