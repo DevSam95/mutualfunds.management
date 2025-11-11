@@ -38,7 +38,7 @@ public class TransactionService {
         MutualFund fund = mutualFundRepository.getReferenceById(id);
 
         if (! DateUtil.isCurrentDate(fund.getDate())) {
-            throw new ValidationException("Fund out of date");
+            throw new ValidationException("Only current date transactions are allowed");
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
