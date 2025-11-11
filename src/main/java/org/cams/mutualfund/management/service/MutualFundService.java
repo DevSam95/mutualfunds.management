@@ -39,6 +39,7 @@ public class MutualFundService {
         fund.setName(fundDto.name());
         fund.setValue(fundDto.value());
         fund.setDate(fundDto.date());
+        fund.setAvailableUnits(fundDto.availableUnits());
         repo.save(fund);
     }
 

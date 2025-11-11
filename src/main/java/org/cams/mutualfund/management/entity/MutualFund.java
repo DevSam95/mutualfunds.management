@@ -20,6 +20,8 @@ public class MutualFund {
 
     private long value;
 
+    private long availableUnits;
+
     private LocalDate date;
 
     public String getId() {
@@ -52,5 +54,13 @@ public class MutualFund {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public long getAvailableUnits() {
+        return availableUnits;
+    }
+
+    public void setAvailableUnits(long availableUnits) {
+        this.availableUnits = availableUnits;
     }
 }

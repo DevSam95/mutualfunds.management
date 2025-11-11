@@ -41,13 +41,18 @@ public class TransactionService {
             throw new ValidationException("Fund out of date");
         }
 
-        long assetValue = units * fund.getValue();
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         AppUser appUser = userRepository.getReferenceByUsername(user.getUsername()).orElseThrow();
 
+        if (units > fund.getAvailableUnits()) {
+            throw new ValidationException("Insufficient units available");
+        }
+
+        long assetValue = units * fund.getValue();
         holdingService.add(appUser, fund, units);
+
+        mutualFundRepository.updateAvailableUnitsByFundId(fund.getId(), fund.getAvailableUnits() - (units));
 
         Transaction txn = new Transaction();
         txn.setFund(fund);

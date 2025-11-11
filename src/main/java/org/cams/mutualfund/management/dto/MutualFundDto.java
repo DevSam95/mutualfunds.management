@@ -18,12 +18,13 @@ public record MutualFundDto(
     long value,
 
     @NotNull(message = "Date is mandatory")
-    LocalDate date
+    LocalDate date,
 
+    long availableUnits
 ) {
 
     public static MutualFundDto toDto(MutualFund fund) {
-        return new MutualFundDto(fund.getId(), fund.getName(), fund.getValue(), fund.getDate());
+        return new MutualFundDto(fund.getId(), fund.getName(), fund.getValue(), fund.getDate(), fund.getAvailableUnits());
     }
 
     public static MutualFund toEntity(MutualFundDto fundDto) {
@@ -32,6 +33,7 @@ public record MutualFundDto(
         fund.setName(fundDto.name());
         fund.setValue(fundDto.value());
         fund.setDate(fundDto.date());
+        fund.setAvailableUnits(fundDto.availableUnits());
         return fund;
     }
 }

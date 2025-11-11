@@ -1,5 +1,6 @@
 package org.cams.mutualfund.management.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.cams.mutualfund.management.entity.Holding;
@@ -11,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HoldingRepository extends JpaRepository<Holding, String> {
     public Optional<Holding> findByUserAndFund(AppUser user, MutualFund fund);
+    public List<Holding> findHoldingsByUserId(String userId);
 }
