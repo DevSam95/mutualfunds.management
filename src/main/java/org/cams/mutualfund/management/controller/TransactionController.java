@@ -2,6 +2,7 @@ package org.cams.mutualfund.management.controller;
 
 import org.cams.mutualfund.management.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +17,13 @@ public class TransactionController {
 
     @PostMapping("/buy/{fundId}/units/{units}")
     public String buy(@PathVariable String fundId, @PathVariable long units) {
-        txnService.buy(fundId, units);
+        txnService.buy(fundId, units, SecurityContextHolder.getContext().getAuthentication());
         return "Mutual fund units purchased successfully";
     }
 
-    @PostMapping("/sell/{fundId}/units/{units}")
-    public String sell(@PathVariable String fundId, @PathVariable long units) {
-        txnService.sell(fundId, units);
+    @PostMapping("/redeem/{fundId}/units/{units}")
+    public String redeem(@PathVariable String fundId, @PathVariable long units) {
+        txnService.redeem(fundId, units, SecurityContextHolder.getContext().getAuthentication());
         return "Mutual fund units sold successfully";
     }
 }

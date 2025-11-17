@@ -19,7 +19,19 @@ In windows PowerShell it can be set as follows
 - $env:SPRING_DATASOURCE_USERNAME="root"
 - $env:SPRING_DATASOURCE_PASSWORD="root"
 
-### Build and run
+### Build
+- Execute `mvn clean install` to build the pacakge
 
-- Execute `mvnw` or `mvnw.cmd`
-- Alternatively run directly using VSCode
+### Run
+- Execute `mvn spring-boot:run` to run the application locally
+
+### Tests
+- Execute `mvn clean test` to run the test cases
+- The coverage report can be found at `target/site/jacoco/index.html`
+
+## Dependencies
+
+- The project used Java 21 as its the latest stable version with LTS
+- Maven is used as dependecy management tool as its familiar to me
+- Spring starter dependencies are included for testing, security, jpa and aop
+- MySQL is used as the relational database

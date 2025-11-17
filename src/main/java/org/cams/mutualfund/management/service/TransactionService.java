@@ -9,9 +9,7 @@ import org.cams.mutualfund.management.repository.MutualFundRepository;
 import org.cams.mutualfund.management.repository.TransactionLogRepository;
 import org.cams.mutualfund.management.repository.UserRepository;
 import org.cams.mutualfund.management.util.DateUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
@@ -22,37 +20,47 @@ import jakarta.validation.ValidationException;
 @Transactional
 public class TransactionService {
 
-    @Autowired
-    private HoldingService holdingService;
- 
-    @Autowired
-    private TransactionLogRepository repo;
+    private final TransactionLogRepository repo;
+    private final MutualFundRepository mutualFundRepository;
+    private final UserRepository userRepository;
+    private final HoldingService holdingService;
+    private final MutualFundService mutualFundService;
 
-    @Autowired
-    private MutualFundRepository mutualFundRepository;
+    public TransactionService(
+        TransactionLogRepository repo,
+        MutualFundRepository mutualFundRepository,
+        UserRepository userRepository,
+        HoldingService holdingService,
+        MutualFundService mutualFundService
+    ) {
+        this.repo = repo;
+        this.mutualFundRepository = mutualFundRepository;
+        this.userRepository = userRepository;
+        this.holdingService = holdingService;
+        this.mutualFundService = mutualFundService;
+    }
 
-    @Autowired
-    private UserRepository userRepository;
+    public void buy(String id, long units, Authentication authentication) {
 
-    public void buy(String id, long units) {
         MutualFund fund = mutualFundRepository.getReferenceById(id);
 
-        if (! DateUtil.isCurrentDate(fund.getDate())) {
+        if (!DateUtil.isCurrentDate(fund.getDate())) {
             throw new ValidationException("Only current date transactions are allowed");
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        AppUser appUser = userRepository.getReferenceByUsername(user.getUsername()).orElseThrow();
+        User principal = (User) authentication.getPrincipal();
+        AppUser appUser = userRepository.getReferenceByUsername(principal.getUsername())
+                .orElseThrow();
 
         if (units > fund.getAvailableUnits()) {
             throw new ValidationException("Insufficient units available");
         }
 
         long assetValue = units * fund.getValue();
+
         holdingService.add(appUser, fund, units);
 
-        mutualFundRepository.updateAvailableUnitsByFundId(fund.getId(), fund.getAvailableUnits() - (units));
+        mutualFundService.updateAvailableUnits(id, fund.getAvailableUnits() - units);
 
         Transaction txn = new Transaction();
         txn.setFund(fund);
@@ -65,12 +73,12 @@ public class TransactionService {
         repo.save(txn);
     }
 
-    public void sell(String id, long units) {
-        MutualFund fund =  mutualFundRepository.getReferenceById(id);;
-        
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        AppUser appUser = userRepository.getReferenceByUsername(user.getUsername()).orElseThrow();
+    public void redeem(String id, long units, Authentication authentication) {
+
+        MutualFund fund = mutualFundRepository.getReferenceById(id);
+
+        User principal = (User) authentication.getPrincipal();
+        AppUser appUser = userRepository.getReferenceByUsername(principal.getUsername()).orElseThrow();
 
         holdingService.remove(appUser, fund, units);
 

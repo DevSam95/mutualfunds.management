@@ -31,14 +31,10 @@ public class MutualFundService {
 
     @Transactional
     public void addNewMutualFund(MutualFundDto fundDto) {
-        if (fundDto.date().isAfter(LocalDate.now())) {
-            throw new ValidationException("Future dates are not allowed");
-        }
-
         MutualFund fund = new MutualFund();
         fund.setName(fundDto.name());
         fund.setValue(fundDto.value());
-        fund.setDate(fundDto.date());
+        fund.setDate(LocalDate.now());
         fund.setAvailableUnits(fundDto.availableUnits());
         repo.save(fund);
     }
@@ -47,6 +43,10 @@ public class MutualFundService {
         MutualFund fund = repo.findById(id).orElseThrow(() -> new EntityNotFoundException("Mutual fund not found"));
         fund.setValue(nav);
         repo.save(fund);
+    }
+
+    public void updateAvailableUnits(String id, long units) {        
+        repo.updateAvailableUnitsByFundId(id, units);
     }
 
     public void deleteMutualFund(String id) {
