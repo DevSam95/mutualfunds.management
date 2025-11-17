@@ -1,7 +1,7 @@
 # Project Overview
 
 ## Tech Stack
-- Backend: Java 24 and Spring Boot 3.5.7
+- Backend: Java 21 and Spring Boot 3.5.7
 - Database: Spring Data JPA w4ith MySQL
 - Authentication: Spring Security for Basic Authentication.
 - Build Tool: Maven
@@ -31,7 +31,11 @@ In windows PowerShell it can be set as follows
 
 ## Dependencies
 
-- The project used Java 21 as its the latest stable version with LTS
-- Maven is used as dependecy management tool as its familiar to me
-- Spring starter dependencies are included for testing, security, jpa and aop
-- MySQL is used as the relational database
+- jpa
+- aop
+- mysql connector
+- test
+- security
+- jacoco
+
+

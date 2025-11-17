@@ -43,7 +43,8 @@ public class SecurityFilter {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authz -> authz.requestMatchers("/api/users/enroll").permitAll()
+            .authorizeHttpRequests(authz -> authz.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui*/**",  "/swagger-ui/index.html").permitAll()
+                                                 .requestMatchers("/api/users/enroll").permitAll()
                                                  .requestMatchers("/api/users/**", "/api/funds/**").hasRole("ADMIN")
                                                  .requestMatchers("/api/txn/**").hasRole("USER")
                                                  .anyRequest().authenticated())
